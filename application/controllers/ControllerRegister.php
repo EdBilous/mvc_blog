@@ -17,6 +17,6 @@ class ControllerRegister extends Controller
             $this->model->registerUser($_POST);
         }
 
-        $this->view->generate($data = null,'register_view.php');
+        $this->view->generate($data = null, 'template_view.php', 'register_view.php');
     }
 }

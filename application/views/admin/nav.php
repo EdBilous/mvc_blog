@@ -1,6 +1,6 @@
 <!-- Navigation-->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-   <a class="navbar-brand" href="/admin/"><?= 'login'; ?></a>
+   <a class="navbar-brand" href="/admin/"><?= $_SESSION['login']; ?></a>
    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
    <span class="navbar-toggler-icon"></span>
    </button>
@@ -19,22 +19,14 @@
             <span class="nav-link-text">Новая статья</span>
             </a>
          </li>
-         <li class="nav-item" data-toggle="tooltip" data-placement="right">
-            <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseExamplePages" data-parent="#exampleAccordion">
-            <i class="fa fa-fw fa-table"></i>
-            <span class="nav-link-text">Статьи</span>
-            </a>
-            <ul class="sidenav-second-level collapse" id="collapseExamplePages">
-               <li>
-                  <a href="/admin">Мои статьи</a>
-               </li>
-               <li>
-                  <a href="/admin/articles">Все статьи</a>
-               </li>
-            </ul>
-         </li>
+          <li class="nav-item" data-toggle="tooltip" data-placement="right" title="">
+              <a class="nav-link" href="/admin/posts">
+                  <i class="fa fa-fw fa-table"></i>
+                  <span class="nav-link-text">Мои посты</span>
+              </a>
+          </li>
          <li class="nav-item" data-toggle="tooltip" data-placement="right" title="">
-            <a class="nav-link" href="users.php">
+            <a class="nav-link" href="/admin/users">
             <i class="fa fa-fw fa-users"></i>
             <span class="nav-link-text">Пользователи</span>
             </a>
@@ -55,7 +47,7 @@
           </form>
         </li>
       <li class="nav-item" data-toggle="tooltip" data-placement="right">
-         <a class="nav-link" href="/index.php">
+         <a class="nav-link" href="/">
          <i class="fa fa-fw fa-home"></i>Главная</a>
       </li>
       <li class="nav-item" data-toggle="tooltip" data-placement="right">

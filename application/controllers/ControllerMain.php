@@ -11,7 +11,7 @@ class ControllerMain extends Controller
     function indexAction()
     {
         $articles = $this->model->getArticles();
-        $this->view->generate($articles,'template_view.php');
+        $this->view->generate($articles, 'template_view.php', 'main_view.php');
     }
 
     public function singleAction()

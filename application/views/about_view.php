@@ -1,6 +1,3 @@
-<?php require_once 'header.php';?>
-      <!-- Navigation -->
-  <?php require_once 'nav.php';?>
     <!-- Page Header -->
     <header class="masthead" style="background-image: url('img/about-bg.jpg')">
       <div class="overlay"></div>
@@ -25,4 +22,3 @@
         </div>
       </div>
     </div>
-<?php require_once 'footer.php';?>

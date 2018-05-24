@@ -16,7 +16,10 @@
             <a class="nav-link disabled" href="/contact">Обратная связь</a>
          </li>
       </ul>
-      <?php// viewSearchForm(); ?>
+       <form action="/search" method="POST" class="form-inline my-2 my-lg-0">
+           <input class="form-control mr-sm-2" type="text" name="query" placeholder="Введите текст" aria-label="Search">
+           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Поиск</button>
+       </form>
       <ul class="navbar-nav">
        <li class="nav-item" data-placement="right">
          <a class="nav-link" href="/admin">

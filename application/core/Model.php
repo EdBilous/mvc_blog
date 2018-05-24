@@ -29,4 +29,13 @@ class Model
     {
         // todo
     }
+
+    public function getCountTab($tab)
+    {
+        if (self::connect()) {
+            $sql = "SELECT COUNT(*) as count
+                    FROM $tab";
+            return self::connect()->query($sql)->fetchColumn();
+        }
+    }
 }

@@ -9,10 +9,10 @@ class ControllerAbout extends Controller
 
     public function indexAction()
     {
-        $this->view->generate($data= null, 'about_view.php');
+        $this->view->generate($data= null, 'template_view.php', 'about_view.php');
     }
 
-    public function singleAection()
+    public function singleAction()
 
     {
 

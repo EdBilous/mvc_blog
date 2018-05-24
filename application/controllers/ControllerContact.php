@@ -9,7 +9,7 @@ class ControllerContact extends Controller
 
     public function indexAction()
     {
-        $this->view->generate($data= null,'contact_view.php');
+        $this->view->generate($data = null, 'template_view.php', 'contact_view.php');
     }
 
     public function singleAection()

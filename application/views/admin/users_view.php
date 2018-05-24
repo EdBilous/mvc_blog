@@ -11,7 +11,7 @@
         <!-- Example DataTables Card-->
         <div class="card mb-3">
             <div class="card-header">
-                <i class="fa fa-table"></i> Пользователи (<?= $manager->getCountTab('users') ?>)
+                <i class="fa fa-table"></i> Пользователи (<?php // getCountTab('users') ?>)
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -35,8 +35,8 @@
                         </tr>
                         </tfoot>
                         <tbody>
-                        <?php if ($userManager->getAllAuthor()): ?>
-                            <?php $users = $userManager->getAllAuthor(); ?>
+                            <?php if($data) : ?>
+                            <?php $users = $data; ?>
                             <?php foreach ($users as $user): ?>
                                 <tr>
                                     <td><?= $user->name; ?></td>
@@ -47,12 +47,10 @@
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
-                            <p>Не нйдено!</p>
+                            <p>Не найдено!</p>
                         <?php endif;?>
                         </tbody>
                     </table>
                 </div>
             </div>
-            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-        </div>
     </div>

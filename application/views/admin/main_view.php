@@ -49,7 +49,7 @@
                         </div>
                         <div class="mr-5">Мои статьи</div>
                     </div>
-                    <a class="card-footer text-white clearfix small z-1" href="/admin/admin_articles.php">
+                    <a class="card-footer text-white clearfix small z-1" href="/admin/posts">
                         <span class="float-left">Показать</span>
                         <span class="float-right">
                 <i class="fa fa-angle-right"></i>
@@ -102,9 +102,10 @@
                             <?php $articles = $data; ?>
                             <?php foreach ($articles as $article): ?>
                             <tr>
-                                <td><?= substr($article->title, 0, 40); ?></td>
-                                <td><?= substr($article->sub_title, 0, 20); ?></td>
-                                <td><?= $article->created_at; ?></td>
+                                <td><?= substr($article->title, 0, 120); ?></td>
+                                <td><?= substr($article->sub_title, 0, 120); ?></td>
+                                <?php $date = DateTime::createFromFormat('Y-m-d H:i:s', $article->created_at); ?>
+                                <td><?= $date->format('F d, Y'); ?></td>
                                 <td><?= $article->autorLogin; ?></td>
                             </tr>
                             <?php endforeach; ?>
@@ -112,6 +113,4 @@
                     </table>
                 </div>
             </div>
-            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-        </div>
     </div>
