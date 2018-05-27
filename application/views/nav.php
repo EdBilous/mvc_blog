@@ -22,7 +22,7 @@
        </form>
       <ul class="navbar-nav">
        <li class="nav-item" data-placement="right">
-         <a class="nav-link" href="/admin">
+         <a class="nav-link" href="/admin/">
          <i class="fa fa-fw fa-user"></i>Админ</a>
       </li>
       <?php if (isset($_SESSION['access']) && $_SESSION['access']): ?>

@@ -33,6 +33,7 @@ class ModelAdmin extends Model
         }
         return false;
     }
+
     /**
      * возвращает статьи для админки
      * admin_articles.php
@@ -77,17 +78,24 @@ class ModelAdmin extends Model
      */
     public function insertArticle($data)
     {
+
         $date = date('Y-m-d H:i:s');
         $userid = $_SESSION['id'];
         $url = $this->getUrl($data['title']);
 
+        $filePath = null;
+        if (isset($_FILES)) {
+            $filePath = $this->saveImage();
+        }
+
         if ($this->connect()) {
-            $sql = "INSERT INTO articles(title, sub_title, content, created_at, author, url)
-                    VALUES ( :title,  :sub_title, :content,  :created_at,  :author, :url)";
+            $sql = "INSERT INTO articles(title, sub_title, content, image, created_at, author, url)
+                    VALUES ( :title,  :sub_title, :content, :image,  :created_at,  :author, :url)";
             $stmt = $this->connect()->prepare($sql);
             $stmt->bindParam(':title', $data['title'], PDO::PARAM_STR);
             $stmt->bindParam(':sub_title', $data['sub_title'], PDO::PARAM_STR);
             $stmt->bindParam(':content', $data['content'], PDO::PARAM_STR);
+            $stmt->bindParam(':image', $filePath, PDO::PARAM_STR);
             $stmt->bindParam(':created_at', $date, PDO::PARAM_STR);
             $stmt->bindParam(':author', $userid, PDO::PARAM_STR);
             $stmt->bindParam(':url', $url, PDO::PARAM_STR);
@@ -103,20 +111,36 @@ class ModelAdmin extends Model
      */
     public function updateArticle($post)
     {
+
         $title = $post['title'];
         $subtitle = $post['sub_title'];
         $text = $post['content'];
-        $id = $post['id'];
+        $url = $post['url'];
+        $id = $this->getArticleByUrl($url)->id;
         $date = date('Y-m-d H:i:s');
 
+        $filePath = null;
+        if (isset($_FILES)) {
+            $filePath = $this->saveImage();
+        }
+
+        if ($filePath != null) {
+            $article = $this->getArticleByUrl($url);
+            if ($article->image) {
+                unlink(__DIR__ . '/../../' . $article->image);
+            }
+        }
+
+
         if ($this->connect()) {
-            $sql = "UPDATE articles SET title = :title, sub_title = :sub_title, content = :content, created_at = :created_at WHERE id = $id";
+            $sql = "UPDATE articles SET title = :title, sub_title = :sub_title, content = :content, image = :image, created_at = :created_at WHERE id = $id";
             $stmt = $this->connect()->prepare($sql);
             $stmt->bindParam(':title', $title, PDO::PARAM_STR);
             $stmt->bindParam(':sub_title', $subtitle, PDO::PARAM_STR);
             $stmt->bindParam(':content', $text, PDO::PARAM_STR);
+            $stmt->bindParam(':image', $filePath, PDO::PARAM_STR);
             $stmt->bindParam(':created_at', $date, PDO::PARAM_STR);
-            // $stmt->bindParam(':id', $id, PDO::PARAM_STR);
+//             $stmt->bindParam(':id', $id, PDO::PARAM_STR);
             return $stmt->execute();
         }
         return false;
@@ -127,8 +151,10 @@ class ModelAdmin extends Model
      * admin_articles.php
      * @param string
      */
-    public function deleteArticle($id)
+    public function deleteArticle($url)
     {
+        $id = $this->getArticleByUrl($url)->id;
+
         if ($this->connect()) {
             $sql = "DELETE FROM articles
                     WHERE id=$id;";
@@ -194,7 +220,7 @@ class ModelAdmin extends Model
         if (!$articleIsset) {
             return $articleUrl;
         } else {
-            $url = $articleIsset['url'];
+            $url = $articleIsset->url;
             $exUrl = explode('-', $url);
             if ($exUrl) {
                 $temp = (int)end($exUrl);
@@ -205,6 +231,23 @@ class ModelAdmin extends Model
             }
             return $this->getUrl($newUrl);
         }
+    }
+
+    /**
+     *
+     *
+     * @param string
+     */
+    public function getArticleByUrl($str)
+    {
+        if ($this->connect()) {
+            $sql = "SELECT *
+                  FROM articles
+                  WHERE url='$str'
+                  ";
+            return $this->connect()->query($sql)->fetch(PDO::FETCH_OBJ);
+        }
+        return false;
     }
 
     private function transliteration($str)
@@ -236,4 +279,43 @@ class ModelAdmin extends Model
         $translit = $st2;
         return $translit;
     }
+
+//    public function updateByUrl($url, $postRequest)
+//    {
+//        $filePath = null;
+//
+//        if (isset($_FILES)) {
+//            $filePath = $this->saveImage();
+//        }
+//
+//
+//        if ($filePath != null) {
+//            $article = $this->getContentOneNews($url);
+//                       if ($article['image']) {
+//                unlink(__DIR__ . '/../../' . $article['image']);
+//                          }
+//       }
+//
+//        $title = $postRequest["title"];
+//        $content = $postRequest["content"];
+//
+//        $sql = "UPDATE posts SET title='$title', content='$content', image='$filePath'
+//                WHERE url='$url'";
+//
+//        if (mysqli_query($this->connect(), $sql)) {
+//            return true;
+//        } else {
+//            return mysqli_error($this->connect());
+//        }
+//        public
+//        function delImage($filePath)
+//        {
+//            if ($filePath != null) {
+//                if (file_exists($filePath)) {
+//                    return unlink(__DIR__ . '/../../' . $filePath);
+//                }
+//
+//                return false;
+//            }
+//        }
 }

@@ -28,22 +28,20 @@ class ControllerAdmin extends Controller
 
     public function postsAction()
     {
-        if (isset($_GET['delid']) && !empty($_GET['delid'])) {
-            $this->model->deleteArticle($_GET['delid']);
-        }
+
         $articles = $this->model->getAdminArticles();
         $this->view->generate($articles, 'admin/template_view.php', 'posts_view.php');
     }
 
-    public function editpostAction()
+    public function editpostAction($param)
     {
-        if (isset($_GET['artid']) && !empty($_GET['artid'])) {
-            $getArticle = $this->model->getArtForEdit($_GET['artid']);
+        if (isset($param) && !empty($param)) {
+            $getArticle = $this->model->getArticleByUrl($param);
         }
 
         if (isset($_POST) && !empty($_POST)) {
             $this->model->updateArticle($_POST);
-            header('Location: /admin/posts');
+//            header('Location: /admin/posts');
         }
         $this->view->generate($getArticle, 'admin/template_view.php', 'editpost_view.php');
     }
@@ -53,4 +51,22 @@ class ControllerAdmin extends Controller
         $users = $this->model->getAllAuthor();
         $this->view->generate($users, 'admin/template_view.php', 'users_view.php');
     }
+
+    public function deleteAction($param)
+    {
+        var_dump($param);
+        if (isset($param) && !empty($param)) {
+            $this->model->deleteArticle($param);
+            header('Location: /admin/posts');
+        }
+    }
+
+//    /**
+//     *
+//     */
+//    public function ajaxAction()
+//    {
+//        echo $this->model->delImage($_POST['urlImage']);
+//    }
+
 }

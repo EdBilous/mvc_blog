@@ -32,12 +32,12 @@ class Route
         $modelName = 'Model' . ucfirst($controllerName);
 
         $controllerName = 'Controller' . ucfirst($controllerName);
-        $actionName = $actionName.'Action';
+        $actionName = $actionName . 'Action';
 
-
-//         echo "Model: $modelName <br>";
-//         echo "Controller: $controllerName <br>";
-//        echo "Action: $actionName <br>";
+//            echo "Model: $modelName <br>";
+//            echo "Controller: $controllerName <br>";
+//            echo "Action: $actionName <br>";
+//            echo "Param: $params <br>";
 
 
         // подцепляем файл с классом модели (файла модели может и не быть)

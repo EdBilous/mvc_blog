@@ -21,7 +21,7 @@
             <?php if ($articles): ?>
             <?php foreach ($articles as $article): ?>
             <div class="post-preview">
-                <a href="post?<?= $article->url; ?>"">
+                <a href="post?<?= $article->url; ?>">
                 <h2 class="post-title">
                     <?= $article->title; ?>
                 </h2>

@@ -38,8 +38,8 @@
                                 <?php $date = DateTime::createFromFormat('Y-m-d H:i:s', $article->created_at); ?>
                                 <td><?= $date->format('F d, Y'); ?></td>
                                 <td>
-                                    <a class="card text-white bg-success" href="editpost?artid=<?= $article->id; ?>"">Редактировать</a><br>
-                                    <a class="card text-white bg-danger" href="posts?delid=<?= $article->id; ?>">Удалить</a>
+                                    <input class="btn btn-outline-primary" type="button" style="" value="редакт..." onclick="if(confirm('Перейти на страницу редактирования?'))location.href='editpost?<?= $article->url; ?>';" /></p>
+                                    <input class="btn btn-outline-danger" type="button" style="" value="удалить" onclick="if(confirm('Уверен, что хочешь удалить?'))location.href='delete?<?= $article->url; ?>';" />
                                 </td>
                             </tr>
                         <?php endforeach; ?>

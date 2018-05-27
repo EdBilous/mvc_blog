@@ -8,10 +8,11 @@ class ControllerPost extends Controller
         parent::__construct();
     }
 
-    public function indexAction()
+    public function indexAction($params)
     {
-        if ($_GET) {
-            $data = $this->model->getPostByUrl(key($_GET));
+//        var_dump(ROOT);
+        if ($params) {
+            $data = $this->model->getPostByUrl($params);
         }
         $this->view->generate($data, 'template_view.php', 'post_view.php');
     }
