@@ -108,10 +108,10 @@
                                 <td><?= substr($article->sub_title, 0, 120); ?></td>
                                 <?php $date = DateTime::createFromFormat('Y-m-d H:i:s', $article->created_at); ?>
                                 <td><?= $date->format('F d, Y'); ?></td>
-                                <td><?= $article->autorLogin; ?></td>
+                                <td><?= $article->authorLogin; ?></td>
                                 <td>
-                                    <input class="btn btn-outline-primary" type="button" style="" value="редакт..." onclick="if(confirm('Перейти на страницу редактирования?'))location.href='editpost?<?= $article->url; ?>';" /></p>
-                                    <input class="btn btn-outline-danger" type="button" style="" value="удалить" onclick="if(confirm('Уверен, что хочешь удалить?'))location.href='delete?<?= $article->url; ?>';" />
+                                    <input class="btn btn-outline-primary" type="button" style="" value="редакт..." onclick="if(confirm('Перейти на страницу редактирования?'))location.href='/admin/editpost?<?= $article->url; ?>';"></p>
+                                    <input class="btn btn-outline-danger" type="button" style="" value="удалить" onclick="if(confirm('Уверен, что хочешь удалить?'))location.href='/admin/delete?<?= $article->url; ?>';" />
                                 </td>
                             </tr>
                             <?php endforeach; ?>

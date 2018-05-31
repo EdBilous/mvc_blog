@@ -28,8 +28,7 @@ class ControllerAdmin extends Controller
 
     public function postsAction()
     {
-
-        $articles = $this->model->getAdminArticles();
+        $articles = $this->model->getUserArticles();
         $this->view->generate($articles, 'admin/template_view.php', 'posts_view.php');
     }
 
@@ -41,23 +40,28 @@ class ControllerAdmin extends Controller
 
         if (isset($_POST) && !empty($_POST)) {
             $this->model->updateArticle($_POST);
-//            header('Location: /admin/posts');
+            header('Location: /admin/posts');
         }
         $this->view->generate($getArticle, 'admin/template_view.php', 'editpost_view.php');
     }
 
-    public function usersAction()
+    public function usersAction($param = null)
     {
-        $users = $this->model->getAllAuthor();
+        if (isset($param) && !empty($param)) {
+            $this->model->deleteUser($param);
+        }
+        if (isset($_POST['role']) && !empty($_POST['role']) && $_SESSION['role'] === 'admin'){
+           $this->model->changeRole($_POST);
+        }
+        $users = $this->model->getUsers();
         $this->view->generate($users, 'admin/template_view.php', 'users_view.php');
     }
 
     public function deleteAction($param)
     {
-        var_dump($param);
         if (isset($param) && !empty($param)) {
             $this->model->deleteArticle($param);
-            header('Location: /admin/posts');
+            header('Location: /admin/');
         }
     }
 

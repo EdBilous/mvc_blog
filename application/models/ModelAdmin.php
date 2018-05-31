@@ -2,26 +2,34 @@
 
 class ModelAdmin extends Model
 {
+    use ModelTrait;
+
     /**
      *
-     * @return array|bool
+     *
+     * @param array
      */
-    public function getArticles()
+    public function changeRole($post)
     {
+
+        $id = $post['id'];
+        $r = $post['role'];
+
         if ($this->connect()) {
-            $sql = "SELECT articles.*, users.login AS autorLogin
-                FROM articles
-                INNER JOIN users ON articles.author = users.id
-                ORDER BY created_at DESC;
-                ";
-
-            return $this->connect()->query($sql)->fetchAll(PDO::FETCH_OBJ);
+            $sql = "UPDATE users SET role = :role WHERE id = $id";
+            $stmt = $this->connect()->prepare($sql);
+            $stmt->bindParam(':role', $r, PDO::PARAM_STR);
+            return $stmt->execute();
         }
-
         return false;
     }
 
-    public function getAllAuthor()
+    /**
+     *
+     *
+     *
+     */
+    public function getUsers()
     {
         if ($this->connect()) {
             $sql = "SELECT *
@@ -35,11 +43,11 @@ class ModelAdmin extends Model
     }
 
     /**
-     * возвращает статьи для админки
-     * admin_articles.php
+     *статьи для админки
+     *
      * @return array|bool
      */
-    public function getAdminArticles()
+    public function getUserArticles()
     {
         $author = $_SESSION['id'];
 
@@ -56,7 +64,7 @@ class ModelAdmin extends Model
 
     /**
      * редактирование статьи
-     * edit_articles.php
+     *
      * @param string
      */
     public function getArtForEdit($id)
@@ -105,6 +113,39 @@ class ModelAdmin extends Model
     }
 
     /**
+     * удаление статьи
+     * admin_articles.php
+     * @param string
+     */
+    public function deleteArticle($url)
+    {
+        $id = $this->getArticleByUrl($url)->id;
+
+        if ($this->connect()) {
+            $sql = "DELETE FROM articles
+                    WHERE id=$id;";
+            return $this->connect()->prepare($sql)->execute();
+        }
+        return false;
+    }
+
+    /**
+     * удаление user
+     * admin_articles.php
+     * @param string
+     */
+    public function deleteUser($id)
+    {
+
+        if ($this->connect()) {
+            $sql = "DELETE FROM users
+                    WHERE id=$id;";
+            return $this->connect()->prepare($sql)->execute();
+        }
+        return false;
+    }
+
+    /**
      * редактирование статей
      * edit_articles.php
      * @param array
@@ -147,62 +188,18 @@ class ModelAdmin extends Model
     }
 
     /**
-     * удаление статьи
-     * admin_articles.php
+     *
+     *
      * @param string
      */
-    public function deleteArticle($url)
-    {
-        $id = $this->getArticleByUrl($url)->id;
-
-        if ($this->connect()) {
-            $sql = "DELETE FROM articles
-                    WHERE id=$id;";
-            return $this->connect()->prepare($sql)->execute();
-        }
-        return false;
-    }
-
-    /**
-     * поиск по запросу.
-     * index.php
-     * @param string
-     */
-    public function search($query)
-    {
-        $query = trim($query);
-        $query = htmlspecialchars($query);
-
-        if (!empty($query)) {
-            if (strlen($query) < 3) {
-                echo '<p>Слишком короткий поисковый запрос.</p>';
-                exit;
-            } else if (strlen($query) > 128) {
-                echo '<p>Слишком длинный поисковый запрос.</p>';
-                exit;
-            } else {
-                $result = $this->getSearchArticle($query);
-            }
-            return $result;
-        }
-
-    }
-
-
-    /**
-     * PRIVATE METOD for Search.
-     * @param string
-     */
-
-    private function getSearchArticle($query)
+    public function getArticleByUrl($str)
     {
         if ($this->connect()) {
             $sql = "SELECT *
-                      FROM articles
-                      WHERE title LIKE '%$query%'
-                      OR sub_title LIKE '%$query%'
-                      OR content LIKE '%$query%'";
-            return $this->connect()->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+                  FROM articles
+                  WHERE url='$str'
+                  ";
+            return $this->connect()->query($sql)->fetch(PDO::FETCH_OBJ);
         }
         return false;
     }
@@ -231,23 +228,6 @@ class ModelAdmin extends Model
             }
             return $this->getUrl($newUrl);
         }
-    }
-
-    /**
-     *
-     *
-     * @param string
-     */
-    public function getArticleByUrl($str)
-    {
-        if ($this->connect()) {
-            $sql = "SELECT *
-                  FROM articles
-                  WHERE url='$str'
-                  ";
-            return $this->connect()->query($sql)->fetch(PDO::FETCH_OBJ);
-        }
-        return false;
     }
 
     private function transliteration($str)
@@ -280,42 +260,4 @@ class ModelAdmin extends Model
         return $translit;
     }
 
-//    public function updateByUrl($url, $postRequest)
-//    {
-//        $filePath = null;
-//
-//        if (isset($_FILES)) {
-//            $filePath = $this->saveImage();
-//        }
-//
-//
-//        if ($filePath != null) {
-//            $article = $this->getContentOneNews($url);
-//                       if ($article['image']) {
-//                unlink(__DIR__ . '/../../' . $article['image']);
-//                          }
-//       }
-//
-//        $title = $postRequest["title"];
-//        $content = $postRequest["content"];
-//
-//        $sql = "UPDATE posts SET title='$title', content='$content', image='$filePath'
-//                WHERE url='$url'";
-//
-//        if (mysqli_query($this->connect(), $sql)) {
-//            return true;
-//        } else {
-//            return mysqli_error($this->connect());
-//        }
-//        public
-//        function delImage($filePath)
-//        {
-//            if ($filePath != null) {
-//                if (file_exists($filePath)) {
-//                    return unlink(__DIR__ . '/../../' . $filePath);
-//                }
-//
-//                return false;
-//            }
-//        }
 }

@@ -27,25 +27,6 @@ function viewTitle()
     }
 }
 
-//Форма для поиска по articles
-//вызов в index.php и search.php
-function viewSearchForm()
-{
-    if (strpos($_SERVER['REQUEST_URI'], '/')) {
-        echo '<form action="/search" method="POST" class="form-inline my-2 my-lg-0">
-              <input class="form-control mr-sm-2" type="text" name="query" placeholder="Введите текст" aria-label="Search">
-              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Поиск</button>
-            </form>';
-    }elseif (strpos($_SERVER['REQUEST_URI'], 'search')) {
-        echo '<form action="/search" method="POST" class="form-inline my-2 my-lg-0">
-              <input class="form-control mr-sm-2" type="text" name="query" placeholder="Введите текст" aria-label="Search">
-              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Поиск</button>
-            </form>';
-    } else {
-        return;
-    }
-}
-
 function getErrorMessage()
 {
     return isset($_SESSION['error_message']) ? $_SESSION['error_message'] : false;

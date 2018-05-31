@@ -1,13 +1,13 @@
-    <div class="content-wrapper">
+<div class="content-wrapper">
     <div class="container-fluid">
-                <!-- Breadcrumbs-->
+        <!-- Breadcrumbs-->
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
                 <a href="/admin/main.php">Main</a>
             </li>
             <li class="breadcrumb-item active">Пользователи</li>
         </ol>
-
+        <?php var_dump($_SESSION['role']);var_dump($_POST); ?>
         <!-- Example DataTables Card-->
         <div class="card mb-3">
             <div class="card-header">
@@ -35,7 +35,7 @@
                         </tr>
                         </tfoot>
                         <tbody>
-                            <?php if($data) : ?>
+                        <?php if ($data) : ?>
                             <?php $users = $data; ?>
                             <?php foreach ($users as $user): ?>
                                 <tr>
@@ -43,14 +43,28 @@
                                     <td><?= $user->last_name; ?></td>
                                     <td><?= $user->login; ?></td>
                                     <td><?= $user->email; ?></td>
-                                    <td><?= $user->role; ?></td>
+                                    <td>
+                                        <form action="" method="post">
+                                            <p><select class="form-control form-control-sm" name="role">
+                                                <option selected disabled><?= $user->role; ?></option>
+                                                <option value="user">Пользователь</option>
+                                                <option value="moderator">Модератор</option>
+                                                <option value="admin">Администратор</option>
+                                            </select></p>
+                                            <p><button type="submit" name="id"
+                                                        value="<?= $user->id; ?>" class="btn btn-dark">
+                                                    Изменить</button>
+                                                <input class="btn btn-outline-danger" type="button" style="" value="удалить" onclick="if(confirm('Уверен, что хочешь удалить пользователя: <?= $user->login; ?> ?'))location.href='users?<?= $user->id; ?>';" />
+                                            </p>
+                                        </form>
+                                    </td>
                                 </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
                             <p>Не найдено!</p>
-                        <?php endif;?>
+                        <?php endif; ?>
                         </tbody>
                     </table>
                 </div>
             </div>
-    </div>
+        </div>

@@ -32,7 +32,7 @@ class ModelLogin extends Model
 
         $check = null;
         if ($this->connect()) {
-            $sql = "SELECT id
+            $sql = "SELECT *
                     FROM users
                     WHERE login='$login' and password='$password'";
             $rezult = $this->connect()->query($sql)->fetch(PDO::FETCH_OBJ);
