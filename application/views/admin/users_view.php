@@ -7,7 +7,7 @@
             </li>
             <li class="breadcrumb-item active">Пользователи</li>
         </ol>
-        <?php var_dump($_SESSION['role']);var_dump($_POST); ?>
+        <?php// var_dump($_SESSION['role']);var_dump($_POST); ?>
         <!-- Example DataTables Card-->
         <div class="card mb-3">
             <div class="card-header">
@@ -45,7 +45,7 @@
                                     <td><?= $user->email; ?></td>
                                     <td>
                                         <form action="" method="post">
-                                            <p><select class="form-control form-control-sm" name="role">
+                                            <p><select style="width: auto;" class="form-control form-control-sm" name="role">
                                                 <option selected disabled><?= $user->role; ?></option>
                                                 <option value="user">Пользователь</option>
                                                 <option value="moderator">Модератор</option>
@@ -53,7 +53,7 @@
                                             </select></p>
                                             <p><button type="submit" name="id"
                                                         value="<?= $user->id; ?>" class="btn btn-dark">
-                                                    Изменить</button>
+                                                    изменить</button>
                                                 <input class="btn btn-outline-danger" type="button" style="" value="удалить" onclick="if(confirm('Уверен, что хочешь удалить пользователя: <?= $user->login; ?> ?'))location.href='users?<?= $user->id; ?>';" />
                                             </p>
                                         </form>
